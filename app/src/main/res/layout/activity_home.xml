@@ -6,9 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/choose_mode_text"
+        android:layout_width="198dp"
+        android:layout_height="51dp"
+        android:text="@string/choose_mode"
+        android:textSize="34sp"
+        tools:layout_editor_absoluteX="106dp"
+        tools:layout_editor_absoluteY="38dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/true_false_text"
+        android:layout_width="138dp"
+        android:layout_height="34dp"
+        android:text="@string/true_false_mode"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="125dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/choose_correct_word_text"
+        android:layout_width="249dp"
+        android:layout_height="32dp"
+        android:text="@string/choose_correct_word_mode"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="275dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/complete_the_missing_letters_text"
+        android:layout_width="246dp"
+        android:layout_height="31dp"
+        android:text="@string/complete_missing_letters_mode"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="425dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/write_correct_word"
+        android:layout_width="248dp"
+        android:layout_height="29dp"
+        android:text="@string/write_correct_word"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="575dp"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

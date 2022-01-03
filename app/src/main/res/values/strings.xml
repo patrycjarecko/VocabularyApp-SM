@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">VocabularyApp</string>
+    <string name="choose_mode">Wybierz tryb</string>
+    <string name="true_false_mode">Prawda/Fałsz</string>
+    <string name="choose_correct_word_mode">Wybierz poprawne słowo</string>
+    <string name="complete_missing_letters_mode">Uzupełnij brakujące litery</string>
+    <string name="write_correct_word">Wpisz poprawne słowo</string>
 </resources>
