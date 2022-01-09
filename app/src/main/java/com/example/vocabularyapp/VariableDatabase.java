@@ -44,13 +44,23 @@ public abstract class VariableDatabase extends RoomDatabase {
                 Variable variable = new Variable();
                 variable.setWord_pl("jabłko");
                 variable.setWord_eng("apple");
-                variable.setCategory("owoc");
+                variable.setCategory("owoce");
                 dao.insert(variable);
                 Variable variable1 = new Variable();
                 variable1.setWord_pl("pomidor");
                 variable1.setWord_eng("tomato");
-                variable1.setCategory("warzywo");
+                variable1.setCategory("warzywa");
                 dao.insert(variable1);
+                Variable variable2 = new Variable();
+                variable2.setWord_pl("cebula");
+                variable2.setWord_eng("onion");
+                variable2.setCategory("warzywa");
+                dao.insert(variable2);
+                Variable variable3 = new Variable();
+                variable3.setWord_pl("marchewka");
+                variable3.setWord_eng("carrot");
+                variable3.setCategory("warzywa");
+                dao.insert(variable3);
             });
         }
     };
