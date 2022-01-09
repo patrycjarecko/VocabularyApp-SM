@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">VocabularyApp</string>
+    <string name="nothing_selected">Nothing selected</string>
+    <string name="word_to_translate">word to translate</string>
+    <string name="insert_your_word">insert your word</string>
+    <string name="submit">Submit</string>
+    <string name="back_to_category">Back</string>
+    <string name="english">English</string>
+    <string name="polish">Polish</string>
+    <string name="category">Category</string>
+    <string name="variable_english">Variable english</string>
+    <string name="variable_polish">Variable polish</string>
+    <string name="empty_edit_text">Fill empty field</string>
 </resources>

@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/vriable_eng"
-            android:text="Variable eng"
+            android:text="@string/variable_english"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/variable_pl"
-            android:text="Variable pl"
+            android:text="@string/variable_polish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/category"
-            android:text="Category"
+            android:text="@string/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
