@@ -51,4 +51,12 @@ public class VariableRepository {
         });
     }
 
+    LiveData<List<String>> findALlDistinctCategories() {
+        return variableDao.findAllDistinctCategories();
+    }
+
+    LiveData<List<Variable>> findVariablesByCategory(String category) {
+        return variableDao.findVariableByCategory(category);
+    }
+
 }
