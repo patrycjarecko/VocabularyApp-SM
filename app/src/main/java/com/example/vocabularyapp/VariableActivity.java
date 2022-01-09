@@ -1,15 +1,18 @@
 package com.example.vocabularyapp;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,28 +21,44 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import lombok.SneakyThrows;
+
 public class VariableActivity extends AppCompatActivity {
 
     //binding nie dzialalo
     private VariableViewModel variableViewModel;
+    private List<String> categories = new ArrayList<>();
+    private String chosenCategory;
+    Spinner categorySpinner;
 
+    @SneakyThrows
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_variable);
+        variableViewModel = ViewModelProviders.of(this).get(VariableViewModel.class);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final VariableAdapter adapter = new VariableAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        variableViewModel = ViewModelProviders.of(this).get(VariableViewModel.class);
+        try{
+            prepareCategories();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
         //uzaleznic od wyboru jezyka
         variableViewModel.findAllEngVariables().observe(this, adapter::setVariables);
 
@@ -69,27 +88,54 @@ public class VariableActivity extends AppCompatActivity {
             alertDialogVariableCreate.setTitle("Create variable");
             alertDialogVariableCreate.setView(createView);
 
-            final EditText dialogCreateEng = (EditText) createView.findViewById(R.id.variable_eng);
-            final EditText dialogCreatePl = (EditText) createView.findViewById(R.id.variable_pl);
-            final EditText dialogCreateCategory = (EditText) createView.findViewById(R.id.variable_category);
+            final EditText dialogCreateEng = createView.findViewById(R.id.variable_eng);
+            final EditText dialogCreatePl = createView.findViewById(R.id.variable_pl);
+
+            categorySpinner = createView.findViewById(R.id.spinner_category);
+
+            ArrayAdapter<String> categorySpinnerAdapter= new ArrayAdapter<>(VariableActivity.this, android.R.layout.simple_list_item_1, this.categories);
+            categorySpinner.setAdapter(categorySpinnerAdapter);
+            categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    chosenCategory = (String) adapterView.getItemAtPosition(i);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    Snackbar.make(createView, getString(R.string.nothing_selected), Snackbar.LENGTH_LONG).show();
+                }
+            });
 
 
             alertDialogVariableCreate.setPositiveButton("Save", (dialogBox, id) -> {
-                Variable variable = new Variable();
-                variable.setWord_eng(dialogCreateEng.getText().toString());
-                variable.setWord_pl(dialogCreatePl.getText().toString());
-                variable.setCategory(dialogCreateCategory.getText().toString());
-                variableViewModel.insert(variable);
+                if (dialogCreatePl.getText().toString().equals("") || dialogCreateEng.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(), "Input is empty. Try again", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Variable variable = new Variable();
+                    variable.setWord_eng(dialogCreateEng.getText().toString());
+                    variable.setWord_pl(dialogCreatePl.getText().toString());
+                    variable.setCategory(chosenCategory);
+                    variableViewModel.insert(variable);
+                }
             });
 
             alertDialogVariableCreate.setNegativeButton("Cancel", (dialogBox, id) -> dialogBox.cancel());
-
-
             AlertDialog alertDialog = alertDialogVariableCreate.create();
             alertDialog.show();
         });
 
 
+    }
+
+    private void prepareCategories() throws IOException {
+        BufferedReader bufer = new BufferedReader(new InputStreamReader(getAssets().open("categories.txt")));
+        String word;
+
+        while ((word = bufer.readLine()) != null){
+            this.categories.add(word);
+        }
     }
 
     private List<Variable> findWorlds(String query, List<Variable> variables) {
@@ -132,6 +178,10 @@ public class VariableActivity extends AppCompatActivity {
         }
 
 
+        private void setArrayCategories(List<String> strings) {
+            categories = strings;
+        }
+
         @Override
         public void onClick(View view) {
 
@@ -141,34 +191,44 @@ public class VariableActivity extends AppCompatActivity {
             alertDialogVariableEdit.setTitle("Edit variable");
             alertDialogVariableEdit.setView(editView);
 
-            final EditText dialogEditEng = (EditText) editView.findViewById(R.id.variable_eng);
-            final EditText dialogEditPl = (EditText) editView.findViewById(R.id.variable_pl);
-            final EditText dialogEditCategory = (EditText) editView.findViewById(R.id.variable_category);
+            categorySpinner = editView.findViewById(R.id.spinner_category);
+
+            ArrayAdapter<String> categorySpinnerAdapter= new ArrayAdapter<>(VariableActivity.this, android.R.layout.simple_list_item_1, categories);
+            categorySpinner.setAdapter(categorySpinnerAdapter);
+            categorySpinner.setSelection(categorySpinnerAdapter.getPosition(variableCategoryTextView.getText().toString()));
+
+            categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    chosenCategory = (String) adapterView.getItemAtPosition(i);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    Snackbar.make(findViewById(R.id.variable_create_edit_view), getString(R.string.nothing_selected), Snackbar.LENGTH_LONG).show();
+                }
+            });
+
+
+            final EditText dialogEditEng = editView.findViewById(R.id.variable_eng);
+            final EditText dialogEditPl = editView.findViewById(R.id.variable_pl);
 
             dialogEditEng.setText(variableEngTextView.getText());
             dialogEditPl.setText(variablePlTextView.getText());
-            dialogEditCategory.setText(variableCategoryTextView.getText());
 
-            alertDialogVariableEdit.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialogBox, int id) {
-                    //variableEngTextView.setText(dialogEditEng.getText().toString());
-                    //variablePlTextView.setText(dialogEditPl.getText().toString());
-                    //variableCategoryTextView.setText(dialogEditCategory.getText().toString());
-                    //zapis w bazie
+            alertDialogVariableEdit.setPositiveButton("Save", (dialogBox, id) -> {
+                if (dialogEditPl.getText().toString().equals("") || dialogEditEng.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(), "Input is empty. Try again", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     variable.setWord_eng(dialogEditEng.getText().toString());
                     variable.setWord_pl(dialogEditPl.getText().toString());
-                    variable.setCategory(dialogEditCategory.getText().toString());
+                    variable.setCategory(chosenCategory);
                     variableViewModel.update(variable);
                 }
             });
 
-            alertDialogVariableEdit.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialogBox, int id) {
-                    dialogBox.cancel();
-                }
-            });
-
-
+            alertDialogVariableEdit.setNegativeButton("Cancel", (dialogBox, id) -> dialogBox.cancel());
             AlertDialog alertDialog = alertDialogVariableEdit.create();
             alertDialog.show();
 
@@ -183,17 +243,8 @@ public class VariableActivity extends AppCompatActivity {
             alertDialogVariableDelete.setTitle("Delete variable");
             alertDialogVariableDelete.setMessage("Are you sure to delete?");
 
-            alertDialogVariableDelete.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialogBox, int id) {
-                    variableViewModel.delete(variable);
-                }
-            });
-
-            alertDialogVariableDelete.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialogBox, int id) {
-                    dialogBox.cancel();
-                }
-            });
+            alertDialogVariableDelete.setPositiveButton("Delete", (dialogBox, id) -> variableViewModel.delete(variable));
+            alertDialogVariableDelete.setNegativeButton("Cancel", (dialogBox, id) -> dialogBox.cancel());
 
             AlertDialog alertDialog = alertDialogVariableDelete.create();
             alertDialog.show();
@@ -227,12 +278,7 @@ public class VariableActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            if (variables != null){
-                return variables.size();
-            }
-            else {
-                return 0;
-            }
+            return variables != null ? variables.size() : 0;
         }
 
         void setVariables(List<Variable> variables){

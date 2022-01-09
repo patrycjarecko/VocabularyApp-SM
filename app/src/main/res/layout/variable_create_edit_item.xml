@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/variable_create_edit_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -8,24 +9,22 @@
 
     <EditText
         android:id="@+id/variable_eng"
-        android:hint="English"
+        android:hint="@string/english"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="top" />
 
     <EditText
         android:id="@+id/variable_pl"
-        android:hint="Polish"
+        android:hint="@string/polish"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="top"/>
 
-    <AutoCompleteTextView
-        android:id="@+id/variable_category"
-        android:hint="Category"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top" />
+    <Spinner
+        android:id="@+id/spinner_category"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
 
 
 </LinearLayout>
