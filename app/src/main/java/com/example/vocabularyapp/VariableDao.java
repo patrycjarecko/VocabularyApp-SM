@@ -39,7 +39,10 @@ public interface VariableDao {
     public List<Variable> findVariableByWordPl(String word_pl);
 
     @Query("SELECT * FROM variable WHERE category LIKE:category")
-    public List<Variable> findVariableByCategory(String category);
+    public LiveData<List<Variable>> findVariableByCategory(String category);
+
+    @Query("SELECT category from variable")
+    LiveData<List<String>> findAllDistinctCategories();
 
     //by status
 

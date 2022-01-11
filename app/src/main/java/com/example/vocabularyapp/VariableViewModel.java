@@ -33,4 +33,11 @@ public class VariableViewModel extends AndroidViewModel {
     public void deleteAll() { variableRepository.deleteAll(); }
 
 
+    LiveData<List<String>> findDisctinctCategories() {
+        return variableRepository.findALlDistinctCategories();
+    }
+
+    LiveData<List<Variable>> findVariablesByCategory(String category) {
+        return variableRepository.findVariablesByCategory(category);
+    }
 }

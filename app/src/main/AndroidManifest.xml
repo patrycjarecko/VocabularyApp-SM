@@ -10,10 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VocabularyApp">
         <activity
-            android:name=".HomeActivity"
+            android:name=".GameActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VariableActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
