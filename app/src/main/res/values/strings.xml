@@ -11,4 +11,7 @@
     <string name="variable_english">Variable english</string>
     <string name="variable_polish">Variable polish</string>
     <string name="empty_edit_text">Fill empty field</string>
+
+    <string name="nav_open">Open navigation drawer</string>
+    <string name="nav_close">Close navigation drawer</string>
 </resources>
