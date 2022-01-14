@@ -29,7 +29,7 @@ public class GameActivity extends AppCompatActivity {
     List<String> possible_answers = new ArrayList<>();
     LinearLayout answerButtonsListView;
     private String chosenCategory;
-    private String chosenMode;
+    private Integer chosenMode = 1;
     private Integer chosenDifficlty = 1; //1-easy, 2-medium, 3-hard
 
 
@@ -68,13 +68,16 @@ public class GameActivity extends AppCompatActivity {
                 variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::setVariables);
 
                 //if dt trybow
-                if(true){
+                if(this.chosenMode == 1){
                     setContentView(R.layout.choose_answer_game);
                     startChooseAnswerGame();
                 }
-                else{
+                else if (this.chosenMode == 2) {
                     setContentView(R.layout.translate_word_game);
                     startTranslateWordGame();
+                }
+                else{
+                    //tutaj trzecia
                 }
             });
             answerButtonsListView.addView(button);
