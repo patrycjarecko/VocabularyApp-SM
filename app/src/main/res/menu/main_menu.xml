@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single" >
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home"
+            android:icon="@drawable/ic_baseline_home_24"/>
+
+        <item
+            android:id="@+id/nav_favorite"
+            android:title="Favorite "
+            android:icon="@drawable/ic_baseline_favorite_24"/>
+
+        <item
+            android:id="@+id/nav_word_list"
+            android:title="Word list"
+            android:icon="@drawable/ic_baseline_view_list_24"/>
+
+        <item
+            android:id="@+id/statistic"
+            android:title="Statistic"
+            android:icon="@drawable/ic_baseline_bar_chart_24"/>
+    </group>
+
+    <item
+            android:title="Settings">
+            <menu>
+                <group android:checkableBehavior="single" >
+                    <item
+                        android:id="@+id/settings"
+                        android:title="Settings"
+                        android:icon="@drawable/ic_baseline_settings_24"/>
+                </group>
+            </menu>
+    </item>
+
+    <item
+            android:title="Tutorials">
+            <menu>
+                <group android:checkableBehavior="single" >
+                    <item
+                        android:id="@+id/nav_tutorial"
+                        android:title="Tutorial"
+                        android:icon="@drawable/ic_baseline_lightbulb_24"/>
+                </group>
+            </menu>
+    </item>
+
+</menu>
