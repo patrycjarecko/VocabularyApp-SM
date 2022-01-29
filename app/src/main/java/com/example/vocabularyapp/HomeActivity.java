@@ -91,6 +91,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             case R.id.nav_home:
                 break;
@@ -99,7 +100,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_word_list:
-                Intent intent = new Intent(HomeActivity.this, VariableActivity.class);
+                intent = new Intent(HomeActivity.this, VariableActivity.class);
                 startActivity(intent);
                 break;
 
@@ -107,6 +108,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.settings:
+                intent = new Intent(HomeActivity.this, SettingsActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.nav_tutorial:

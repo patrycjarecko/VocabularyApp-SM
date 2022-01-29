@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/layout/variable_edit_item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/variable_list_item.xml" value="0.17647058823529413" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.1890625" />
+        <entry key="app/src/main/res/xml/root_preferences.xml" value="0.1" />
       </map>
     </option>
   </component>

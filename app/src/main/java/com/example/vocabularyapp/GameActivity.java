@@ -1,5 +1,8 @@
 package com.example.vocabularyapp;
 
+import static java.lang.Integer.parseInt;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,6 +43,10 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_list);
         chosenMode = getIntent().getExtras().getInt("chosenMode");
+
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        chosenDifficlty = parseInt(sharedPreferences.getString("difficulty", ""));
 
         variableViewModel = ViewModelProviders.of(this).get(VariableViewModel.class);
         try {

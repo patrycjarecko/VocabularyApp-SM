@@ -14,4 +14,17 @@
 
     <string name="nav_open">Open navigation drawer</string>
     <string name="nav_close">Close navigation drawer</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="game_header">Game</string>
+    <string name="notification_header">Notification</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="difficulty_title">Default difficulty mode</string>
+
+    <!-- Sync Preferences -->
+    <string name="notification_title">Disable notifications</string>
+
 </resources>

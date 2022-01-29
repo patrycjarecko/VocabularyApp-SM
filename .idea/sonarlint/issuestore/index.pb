@@ -1,8 +1,6 @@
 
 i
 9app/src/main/java/com/example/vocabularyapp/Variable.java,4/8/48f7d7a18074afa256c6c9d41ddf8d2f4b577b8b
-@
-app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
 q
 Aapp/src/main/java/com/example/vocabularyapp/VariableDatabase.java,3/f/3f5c548c2ecb2f05c20ac5374e165a796459befd
 l
