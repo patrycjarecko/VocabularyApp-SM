@@ -38,9 +38,14 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_list);
+        chosenMode = getIntent().getExtras().getInt("chosenMode");
 
         variableViewModel = ViewModelProviders.of(this).get(VariableViewModel.class);
-        prepareCategories();
+        try {
+            prepareCategories();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -48,7 +53,7 @@ public class GameActivity extends AppCompatActivity {
         BufferedReader bufer = new BufferedReader(new InputStreamReader(getAssets().open("categories.txt")));
         String word;
 
-        while ((word = bufer.readLine()) != null){
+        while ((word = bufer.readLine()) != null) {
             this.categories.add(word);
         }
         setCategories();
@@ -68,15 +73,13 @@ public class GameActivity extends AppCompatActivity {
                 variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::setVariables);
 
                 //if dt trybow
-                if(this.chosenMode == 1){
+                if (this.chosenMode == 1) {
                     setContentView(R.layout.choose_answer_game);
                     startChooseAnswerGame();
-                }
-                else if (this.chosenMode == 2) {
+                } else if (this.chosenMode == 2) {
                     setContentView(R.layout.translate_word_game);
                     startTranslateWordGame();
-                }
-                else{
+                } else {
                     //tutaj trzecia
                 }
             });
@@ -91,7 +94,7 @@ public class GameActivity extends AppCompatActivity {
     Button backToCategoryButton;
     String requiredResult;
 
-    private void startTranslateWordGame(){
+    private void startTranslateWordGame() {
         wordToTranslate = findViewById(R.id.word_to_translate_text_view);
         translation = findViewById(R.id.put_translate_text_edit);
         submitButton = findViewById(R.id.game_submit_button);
@@ -125,7 +128,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    private void setAnswerButtons(){
+    private void setAnswerButtons() {
         answerButtonsListView = findViewById(R.id.answer_buttons);
         answerButtonsListView.removeAllViews();
         for (int i = 0; i <= chosenDifficlty; i++) {
@@ -152,14 +155,14 @@ public class GameActivity extends AppCompatActivity {
 
 
     private synchronized void setVariables(List<Variable> variables) {
-        if (variables.size() == 0){
+        if (variables.size() == 0) {
             setContentView(R.layout.category_list);
             setCategories();
             Toast.makeText(getApplicationContext(), "You don't have enough words in this category to start the game.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Integer pom= new Random().nextInt(variables.size());
+        Integer pom = new Random().nextInt(variables.size());
         Variable variable = variables.get(pom);
         wordToTranslate.setText(variable.getWord_eng());
         requiredResult = variable.getWord_pl();
@@ -169,7 +172,7 @@ public class GameActivity extends AppCompatActivity {
     private void setPossibleAnswers(List<Variable> variables) {
         possible_answers.clear();
 
-        if (variables.size() <= this.chosenDifficlty){
+        if (variables.size() <= this.chosenDifficlty) {
             setContentView(R.layout.category_list);
             setCategories();
             Toast.makeText(getApplicationContext(), "You don't have enough words in this category to start the game.", Toast.LENGTH_SHORT).show();
@@ -177,10 +180,10 @@ public class GameActivity extends AppCompatActivity {
         }
 
         //musi byc o jeden mniejsza zeby zmiescic poprawną
-        while(this.possible_answers.size() < this.chosenDifficlty){
+        while (this.possible_answers.size() < this.chosenDifficlty) {
             Variable variable = variables.get(new Random().nextInt(variables.size()));
 
-            if (!Objects.equals(variable.getWord_pl(), this.requiredResult) && !ifContains(this.possible_answers,variable.getWord_pl())){
+            if (!Objects.equals(variable.getWord_pl(), this.requiredResult) && !ifContains(this.possible_answers, variable.getWord_pl())) {
                 this.possible_answers.add(variable.getWord_pl());
             }
         }
@@ -191,13 +194,17 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    private boolean ifContains(List<String> list, String new_value){
-        for(Integer i=0;i<list.size();i++){
-            if (list.get(i) == new_value){
+    private boolean ifContains(List<String> list, String new_value) {
+        for (Integer i = 0; i < list.size(); i++) {
+            if (list.get(i) == new_value) {
                 return true;
             }
         }
         return false;
+    }
+
+    public void setChosenMode(int chosenMode) {
+        this.chosenMode = chosenMode;
     }
 
 }
