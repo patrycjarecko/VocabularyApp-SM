@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Variable.class}, version=1, exportSchema = false)
+@Database(entities = {Variable.class}, version=2, exportSchema = false)
 public abstract class VariableDatabase extends RoomDatabase {
 
 
@@ -45,21 +45,25 @@ public abstract class VariableDatabase extends RoomDatabase {
                 variable.setWord_pl("jabłko");
                 variable.setWord_eng("apple");
                 variable.setCategory("owoce");
+                variable.setStatus("Do nauczenia");
                 dao.insert(variable);
                 Variable variable1 = new Variable();
                 variable1.setWord_pl("pomidor");
                 variable1.setWord_eng("tomato");
                 variable1.setCategory("warzywa");
+                variable1.setStatus("Do nauczenia");
                 dao.insert(variable1);
                 Variable variable2 = new Variable();
                 variable2.setWord_pl("cebula");
                 variable2.setWord_eng("onion");
                 variable2.setCategory("warzywa");
+                variable2.setStatus("Do nauczenia");
                 dao.insert(variable2);
                 Variable variable3 = new Variable();
                 variable3.setWord_pl("marchewka");
                 variable3.setWord_eng("carrot");
                 variable3.setCategory("warzywa");
+                variable3.setStatus("Do nauczenia");
                 dao.insert(variable3);
             });
         }

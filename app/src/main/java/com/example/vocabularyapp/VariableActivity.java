@@ -35,11 +35,13 @@ import lombok.SneakyThrows;
 
 public class VariableActivity extends AppCompatActivity {
 
-    //binding nie dzialalo
     private VariableViewModel variableViewModel;
     private List<String> categories = new ArrayList<>();
+    private List<String> statuses = HomeActivity.statuses;
     private String chosenCategory;
+    private String chosenStatus;
     Spinner categorySpinner;
+    Spinner statusSpinner;
 
     @SneakyThrows
     @Override
@@ -53,12 +55,8 @@ public class VariableActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        try{
-            prepareCategories();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        prepareCategories();
+
         //uzaleznic od wyboru jezyka
         variableViewModel.findAllEngVariables().observe(this, adapter::setVariables);
 
@@ -92,6 +90,7 @@ public class VariableActivity extends AppCompatActivity {
             final EditText dialogCreatePl = createView.findViewById(R.id.variable_pl);
 
             categorySpinner = createView.findViewById(R.id.spinner_category);
+            statusSpinner = createView.findViewById(R.id.spinner_status);
 
             ArrayAdapter<String> categorySpinnerAdapter= new ArrayAdapter<>(VariableActivity.this, android.R.layout.simple_list_item_1, this.categories);
             categorySpinner.setAdapter(categorySpinnerAdapter);
@@ -99,6 +98,20 @@ public class VariableActivity extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     chosenCategory = (String) adapterView.getItemAtPosition(i);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    Snackbar.make(createView, getString(R.string.nothing_selected), Snackbar.LENGTH_LONG).show();
+                }
+            });
+
+            ArrayAdapter<String> statusSpinnerAdapter= new ArrayAdapter<>(VariableActivity.this, android.R.layout.simple_list_item_1, this.statuses);
+            statusSpinner.setAdapter(statusSpinnerAdapter);
+            statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    chosenStatus = (String) adapterView.getItemAtPosition(i);
                 }
 
                 @Override
@@ -117,6 +130,7 @@ public class VariableActivity extends AppCompatActivity {
                     variable.setWord_eng(dialogCreateEng.getText().toString());
                     variable.setWord_pl(dialogCreatePl.getText().toString());
                     variable.setCategory(chosenCategory);
+                    variable.setStatus(chosenStatus);
                     variableViewModel.insert(variable);
                 }
             });
@@ -156,6 +170,7 @@ public class VariableActivity extends AppCompatActivity {
         private TextView variableEngTextView;
         private TextView variablePlTextView;
         private TextView variableCategoryTextView;
+        private TextView variableStatusTextView;
         private Variable variable;
 
         public VariableHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -164,6 +179,7 @@ public class VariableActivity extends AppCompatActivity {
             variableEngTextView = itemView.findViewById(R.id.vriable_eng);
             variablePlTextView = itemView.findViewById(R.id.variable_pl);
             variableCategoryTextView = itemView.findViewById(R.id.category);
+            variableStatusTextView = itemView.findViewById(R.id.status);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -175,11 +191,15 @@ public class VariableActivity extends AppCompatActivity {
             variableEngTextView.setText(variable.getWord_eng());
             variablePlTextView.setText(variable.getWord_pl());
             variableCategoryTextView.setText(variable.getCategory());
+            variableStatusTextView.setText(variable.getStatus());
         }
 
 
         private void setArrayCategories(List<String> strings) {
             categories = strings;
+        }
+        private void setArrayStatuses(List<String> strings) {
+            statuses = strings;
         }
 
         @Override
@@ -192,6 +212,7 @@ public class VariableActivity extends AppCompatActivity {
             alertDialogVariableEdit.setView(editView);
 
             categorySpinner = editView.findViewById(R.id.spinner_category);
+            statusSpinner = editView.findViewById(R.id.spinner_status);
 
             ArrayAdapter<String> categorySpinnerAdapter= new ArrayAdapter<>(VariableActivity.this, android.R.layout.simple_list_item_1, categories);
             categorySpinner.setAdapter(categorySpinnerAdapter);
@@ -201,6 +222,22 @@ public class VariableActivity extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     chosenCategory = (String) adapterView.getItemAtPosition(i);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    Snackbar.make(findViewById(R.id.variable_create_edit_view), getString(R.string.nothing_selected), Snackbar.LENGTH_LONG).show();
+                }
+            });
+
+            ArrayAdapter<String> statusSpinnerAdapter= new ArrayAdapter<>(VariableActivity.this, android.R.layout.simple_list_item_1, statuses);
+            statusSpinner.setAdapter(statusSpinnerAdapter);
+            statusSpinner.setSelection(statusSpinnerAdapter.getPosition(variableStatusTextView.getText().toString()));
+
+            statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    chosenStatus = (String) adapterView.getItemAtPosition(i);
                 }
 
                 @Override
@@ -224,6 +261,7 @@ public class VariableActivity extends AppCompatActivity {
                     variable.setWord_eng(dialogEditEng.getText().toString());
                     variable.setWord_pl(dialogEditPl.getText().toString());
                     variable.setCategory(chosenCategory);
+                    variable.setStatus(chosenStatus);
                     variableViewModel.update(variable);
                 }
             });
