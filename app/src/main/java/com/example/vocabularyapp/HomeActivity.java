@@ -16,6 +16,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.SneakyThrows;
+
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
@@ -25,10 +33,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     Button writeWordModeButton;
     Button combineLettersModeButton;
 
+    public static List<String> statuses = new ArrayList<>();
+
+    @SneakyThrows
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        prepareStatuses();
 
         drawerLayout = findViewById(R.id.home_view);
         navigationView = findViewById(R.id.nav_view);
@@ -78,6 +90,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
+    }
+
+    private void prepareStatuses() throws IOException {
+        BufferedReader bufer = new BufferedReader(new InputStreamReader(getAssets().open("statuses.txt")));
+        String word;
+
+        while ((word = bufer.readLine()) != null) {
+            this.statuses.add(word);
+        }
     }
 
     @Override
