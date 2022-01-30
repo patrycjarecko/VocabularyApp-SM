@@ -3,10 +3,15 @@ package com.example.vocabularyapp;
 import static java.lang.Integer.parseInt;
 
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +48,7 @@ public class GameActivity extends AppCompatActivity {
     Button submitButton;
     Button backToCategoryButton;
     String requiredResult;
+    private boolean isThreadFinished = false;
 
     //blankspaces mode
     List<Character> randomLetters = new ArrayList<>();
@@ -180,6 +186,7 @@ public class GameActivity extends AppCompatActivity {
         Variable variable = variables.get(pom);
         wordToTranslate.setText(variable.getWord_eng());
         requiredResult = variable.getWord_pl();
+        isThreadFinished = true;
     }
 
     private void startBlankSpacesGame() {
@@ -194,6 +201,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setBlankSpacesPossibleAnswers(List<Variable> variables) {
+        while (!isThreadFinished) {
+
+        }
+
         StringBuilder givenAnswer = new StringBuilder();
         List<Character> letters = getShuffledLetters();
         TextView blankSpacesWord = findViewById(R.id.blank_spaces_word);
@@ -201,7 +212,7 @@ public class GameActivity extends AppCompatActivity {
         answerButtonsListView = findViewById(R.id.answer_buttons);
         answerButtonsListView.removeAllViews();
 
-        for (int i = 0; i <= requiredResult.length() + (chosenDifficlty * 2); i++) {
+        for (int i = 0; i <= requiredResult.length() + (chosenDifficlty * 2) - 1; i++) {
             Button button = new Button(this);
             button.setId(i + 1);
             button.setText(letters.get(i) + "");
@@ -226,6 +237,7 @@ public class GameActivity extends AppCompatActivity {
 
     private List<Character> getShuffledLetters() {
         Random randNum = new Random();
+        System.out.println("tu jest wymaganyt result" + requiredResult);
         char[] lettersArray = requiredResult.toCharArray();
 
         List<char[]> asList = Arrays.asList(lettersArray);
@@ -239,6 +251,7 @@ public class GameActivity extends AppCompatActivity {
             letters.add("abcdefghijklmnopqrstuvwxyz".toCharArray()[randNum.nextInt("abcdefghijklmnopqrstuvwxyz".toCharArray().length)]);
         }
 
+//        Collections.shuffle(letters);
         return letters;
     }
 

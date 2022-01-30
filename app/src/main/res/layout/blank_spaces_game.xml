@@ -20,8 +20,18 @@
 
     <LinearLayout
         android:id="@+id/answer_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        />
+
+    <Space
+        android:layout_width="300dp"
+        android:layout_height="300dp" />
+    <Button
+        android:id="@+id/back_to_category_button"
         android:layout_width="match_parent"
-        android:layout_height="305dp"
-        android:orientation="vertical" />
+        android:layout_height="wrap_content"
+        android:text="@string/back_to_category" />
 
 </LinearLayout>
