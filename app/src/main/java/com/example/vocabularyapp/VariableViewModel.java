@@ -14,17 +14,20 @@ public class VariableViewModel extends AndroidViewModel {
     private String word;
     private LiveData<List<Variable>> variables_eng;
     private LiveData<List<Variable>> variables_pl;
+    private LiveData<List<Variable>> variables;
 
     public VariableViewModel(@NonNull Application application) {
         super(application);
         variableRepository = new VariableRepository(application);
         variables_eng = variableRepository.findAllEngVariables();
         variables_pl = variableRepository.findAllPlVariables();
+        variables = variableRepository.findAllVariables();
     }
 
 
     LiveData<List<Variable>> findAllEngVariables(){ return variables_eng;}
     LiveData<List<Variable>> findAllPlVariables(){ return variables_pl; }
+    LiveData<List<Variable>> findAllVariables(){ return variables; }
 
 
     public void insert(Variable variable) { variableRepository.insert(variable); }

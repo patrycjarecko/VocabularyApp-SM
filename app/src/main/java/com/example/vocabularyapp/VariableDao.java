@@ -44,6 +44,7 @@ public interface VariableDao {
     @Query("SELECT category from variable")
     LiveData<List<String>> findAllDistinctCategories();
 
-    //by status
+    @Query("SELECT * FROM variable")
+    LiveData<List<Variable>> findAll();
 
 }
