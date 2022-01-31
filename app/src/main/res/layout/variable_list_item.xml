@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:layout_margin="5dp"
-    android:elevation="8dp">
+    style="@style/CustomCardView"
+    android:alwaysDrawnWithCache="false"
+    android:animateLayoutChanges="false">
 
 
     <LinearLayout
@@ -14,38 +13,38 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/vriable_eng"
-            android:text="@string/variable_english"
+            android:id="@+id/variable_eng"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:text="@string/variable_english"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/variable_pl"
-            android:text="@string/variable_polish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:text="@string/variable_polish"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/category"
-            android:text="@string/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:text="@string/category"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/status"
-            android:text="@string/status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:text="@string/status"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
