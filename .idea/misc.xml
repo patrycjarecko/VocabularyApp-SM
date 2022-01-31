@@ -3,11 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/border.xml" value="0.2760416666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_school_24.xml" value="0.209375" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.209375" />
         <entry key="app/src/main/res/drawable/ic_splash_screen_24.xml" value="0.36822916666666666" />
-        <entry key="app/src/main/res/layout-v31/blank_spaces_game.xml" value="0.14814814814814814" />
-        <entry key="app/src/main/res/layout/activity_favourite.xml" value="0.16312056737588654" />
+        <entry key="app/src/main/res/layout/activity_favourite.xml" value="0.16041666666666668" />
         <entry key="app/src/main/res/layout/activity_game.xml" value="0.17222222222222222" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19322916666666667" />
@@ -18,13 +18,12 @@
         <entry key="app/src/main/res/layout/choose_answer_game.xml" value="0.22" />
         <entry key="app/src/main/res/layout/game_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/header.xml" value="0.1890625" />
-        <entry key="app/src/main/res/layout/settings_activity.xml" value="0.35208333333333336" />
-        <entry key="app/src/main/res/layout/list_group.xml" value="0.16312056737588654" />
-        <entry key="app/src/main/res/layout/list_item.xml" value="0.16312056737588654" />
+        <entry key="app/src/main/res/layout/list_group.xml" value="0.16041666666666668" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.16041666666666668" />
         <entry key="app/src/main/res/layout/translate_word_game.xml" value="0.22" />
         <entry key="app/src/main/res/layout/variable_create_edit_item.xml" value="0.22735507246376813" />
         <entry key="app/src/main/res/layout/variable_edit_item.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/variable_list_item.xml" value="0.17647058823529413" />
+        <entry key="app/src/main/res/layout/variable_list_item.xml" value="0.25" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.1890625" />
         <entry key="app/src/main/res/xml/root_preferences.xml" value="0.1" />
       </map>

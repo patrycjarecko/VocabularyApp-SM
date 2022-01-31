@@ -176,7 +176,7 @@ public class VariableActivity extends AppCompatActivity {
         public VariableHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.variable_list_item, parent, false));
 
-            variableEngTextView = itemView.findViewById(R.id.vriable_eng);
+            variableEngTextView = itemView.findViewById(R.id.variable_eng);
             variablePlTextView = itemView.findViewById(R.id.variable_pl);
             variableCategoryTextView = itemView.findViewById(R.id.category);
             variableStatusTextView = itemView.findViewById(R.id.status);

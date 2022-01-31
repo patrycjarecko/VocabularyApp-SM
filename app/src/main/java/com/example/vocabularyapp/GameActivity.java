@@ -96,7 +96,6 @@ public class GameActivity extends AppCompatActivity {
                 this.chosenCategory = tempCategory;
                 variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::setVariables);
 
-                //if dt trybow
                 if (this.chosenMode == 1) {
                     setContentView(R.layout.choose_answer_game);
                     startChooseAnswerGame();
@@ -104,7 +103,6 @@ public class GameActivity extends AppCompatActivity {
                     setContentView(R.layout.translate_word_game);
                     startTranslateWordGame();
                 } else {
-                    //tutaj trzecia
                     setContentView(R.layout.blank_spaces_game);
                     startBlankSpacesGame();
                 }
