@@ -20,11 +20,13 @@ public class VariableRepository {
         //uwzglednic potem w druga strone
         variables_eng = variableDao.findAllEng();
         variables_pl = variableDao.findAllPl();
+        variables = variableDao.findAll();
     }
 
 
     LiveData<List<Variable>> findAllEngVariables(){ return variables_eng; }
     LiveData<List<Variable>> findAllPlVariables(){ return variables_pl; }
+    LiveData<List<Variable>> findAllVariables(){ return variables; }
 
 
     void insert(Variable variable){

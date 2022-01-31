@@ -1,11 +1,13 @@
 package com.example.vocabularyapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -20,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import lombok.SneakyThrows;
@@ -33,6 +37,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     Button writeWordModeButton;
     Button combineLettersModeButton;
 
+
+    private VariableViewModel variableViewModel;
+    private HashMap<String, List<String>> expandableListDetail = new HashMap<>();
+    private HashMap<String, List<String>> variablesByStatus = new HashMap<>();
+
     public static List<String> statuses = new ArrayList<>();
 
     @SneakyThrows
@@ -40,7 +49,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        prepareStatuses();
+
+        try {
+            prepareStatuses();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        variableViewModel = ViewModelProviders.of(this).get(VariableViewModel.class);
+        variableViewModel.findAllVariables().observe(this, this::setVariables);
+
 
         drawerLayout = findViewById(R.id.home_view);
         navigationView = findViewById(R.id.nav_view);
@@ -111,6 +129,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Intent intent;
@@ -119,6 +138,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_favorite:
+                intent = new Intent(HomeActivity.this, FavouriteActivity.class);
+                intent.putExtra("hashMap", expandableListDetail);
+                intent.putExtra("varByStatus", variablesByStatus);
+                startActivity(intent);
                 break;
 
             case R.id.nav_word_list:
@@ -151,5 +174,79 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private synchronized void setVariables(List<Variable> variables) {
+        List<String> categories = new ArrayList<>();
+        List<String> statuses = new ArrayList<>();
+
+
+        BufferedReader bufer = null;
+        try {
+            bufer = new BufferedReader(new InputStreamReader(getAssets().open("categories.txt")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String word;
+
+        while (true) {
+            try {
+                if (!((word = bufer.readLine()) != null)){
+                    categories.add(word);
+                    break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        BufferedReader bufer2 = null;
+        try {
+            bufer2 = new BufferedReader(new InputStreamReader(getAssets().open("categories.txt")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String word2;
+
+        while (true) {
+            try {
+                if (!((word2 = bufer2.readLine()) != null)){
+                    statuses.add(word2);
+                    break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        if (variables.size() == 0) {
+            Toast.makeText(getApplicationContext(), "Lack of variables", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        for(int i=0; i<categories.size(); i++){
+            List<String> category_variables = new ArrayList<>();
+            for(int j=0; j<variables.size(); j++){
+                if(variables.get(j).getCategory().equals(categories.get(i))){
+                    category_variables.add(variables.get(j).getWord_eng());
+                }
+            }
+            expandableListDetail.put(categories.get(i), category_variables);
+        }
+
+        for(int i=0; i<statuses.size(); i++){
+            List<String> statuses_variables = new ArrayList<>();
+            for(int j=0; j<variables.size(); j++){
+                if(variables.get(j).getStatus().equals(statuses.get(i))){
+                    statuses_variables.add(variables.get(j).getWord_eng());
+                }
+            }
+            variablesByStatus.put(statuses.get(i), statuses_variables);
+            System.out.println(statuses_variables.size());
+        }
+
     }
 }
