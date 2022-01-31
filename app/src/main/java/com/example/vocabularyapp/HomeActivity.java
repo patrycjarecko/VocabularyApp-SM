@@ -177,7 +177,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private synchronized void setVariables(List<Variable> variables) {
-        List<String> categories = new ArrayList<>();
+        List<String> categories2 = new ArrayList<>();
         List<String> statuses = new ArrayList<>();
 
 
@@ -191,8 +191,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         while (true) {
             try {
-                if (!((word = bufer.readLine()) != null)){
-                    categories.add(word);
+                if (((word = bufer.readLine()) != null)){
+                    categories2.add(word);
+                }
+                else{
                     break;
                 }
             } catch (IOException e) {
@@ -203,7 +205,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         BufferedReader bufer2 = null;
         try {
-            bufer2 = new BufferedReader(new InputStreamReader(getAssets().open("categories.txt")));
+            bufer2 = new BufferedReader(new InputStreamReader(getAssets().open("statuses.txt")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -211,8 +213,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         while (true) {
             try {
-                if (!((word2 = bufer2.readLine()) != null)){
+                if (((word2 = bufer2.readLine()) != null)){
                     statuses.add(word2);
+                }
+                else{
                     break;
                 }
             } catch (IOException e) {
@@ -227,14 +231,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
 
-        for(int i=0; i<categories.size(); i++){
+        for(int i=0; i<categories2.size(); i++){
             List<String> category_variables = new ArrayList<>();
             for(int j=0; j<variables.size(); j++){
-                if(variables.get(j).getCategory().equals(categories.get(i))){
+                if(variables.get(j).getCategory().equals(categories2.get(i))){
                     category_variables.add(variables.get(j).getWord_eng());
                 }
             }
-            expandableListDetail.put(categories.get(i), category_variables);
+            expandableListDetail.put(categories2.get(i), category_variables);
         }
 
         for(int i=0; i<statuses.size(); i++){
@@ -245,7 +249,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             variablesByStatus.put(statuses.get(i), statuses_variables);
-            System.out.println(statuses_variables.size());
         }
 
     }
