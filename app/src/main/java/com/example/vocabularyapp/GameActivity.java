@@ -3,21 +3,18 @@ package com.example.vocabularyapp;
 import static java.lang.Integer.parseInt;
 
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.ViewGroup;
+import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.preference.PreferenceManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,6 +34,7 @@ public class GameActivity extends AppCompatActivity {
     List<String> categories = new ArrayList<>();
     List<Variable> variables = new ArrayList<>();
     List<String> possible_answers = new ArrayList<>();
+    List<Character> letters = new ArrayList<>();
     LinearLayout answerButtonsListView;
     private String chosenCategory;
     private Integer chosenMode = 1;
@@ -53,6 +51,7 @@ public class GameActivity extends AppCompatActivity {
     //blankspaces mode
     List<Character> randomLetters = new ArrayList<>();
     String blank_spaces_word;
+    Button resetButton;
 
     @SneakyThrows
     @Override
@@ -191,42 +190,60 @@ public class GameActivity extends AppCompatActivity {
 
     private void startBlankSpacesGame() {
         wordToTranslate = findViewById(R.id.word_to_translate_text_view);
-        setBlankSpaces();
-
         variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::setVariables);
-        variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::setBlankSpacesPossibleAnswers);
+        variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::getShuffledLetters);
 
+        //getShuffledLetters();
 //        randomLetters;
 //        blank_spaces_word;
     }
 
-    private void setBlankSpacesPossibleAnswers(List<Variable> variables) {
-        while (!isThreadFinished) {
 
-        }
+    private void setBlankSpacesPossibleAnswers() {
 
         StringBuilder givenAnswer = new StringBuilder();
-        List<Character> letters = getShuffledLetters();
         TextView blankSpacesWord = findViewById(R.id.blank_spaces_word);
 
-        answerButtonsListView = findViewById(R.id.answer_buttons);
-        answerButtonsListView.removeAllViews();
+        TableLayout tabLayout = findViewById(R.id.tab_buttons);
+        tabLayout.removeAllViews();
+        int maxLen = requiredResult.length() + (chosenDifficlty * 2);
+        for(int i = 1; i <= maxLen; ){
+            TableRow a = new TableRow(this);
+            a.setId(i*20+1);
+            for(int y = 0; (y < 4) && (i <=maxLen); y++) {
+                Button button = new Button(this);
+                button.setId(i);
+                button.setText(this.letters.get(i-1) + "");
+                button.setOnClickListener(view -> {
+                    button.setEnabled(false);
+                    givenAnswer.append(button.getText());
+                    blankSpacesWord.setText(givenAnswer.toString());
 
-        for (int i = 0; i <= requiredResult.length() + (chosenDifficlty * 2) - 1; i++) {
-            Button button = new Button(this);
-            button.setId(i + 1);
-            button.setText(letters.get(i) + "");
-            button.setOnClickListener(view -> {
-                givenAnswer.append(button.getText());
-                blankSpacesWord.setText(givenAnswer.toString());
-                if (givenAnswer.toString().equals(requiredResult)) {
-                    System.out.println("BRAWO");
-                    startBlankSpacesGame(); //potem to zmienic
-                } else
-                    System.out.println("ŹLE");
-            });
-            answerButtonsListView.addView(button);
+                    if (givenAnswer.toString().equals(requiredResult)) {
+                        System.out.println("BRAWO");
+
+                        givenAnswer.setLength(0);
+                        blankSpacesWord.setText("");
+                        startBlankSpacesGame(); //potem to zmienic
+                    } else
+                        System.out.println("ŹLE");
+                });
+                a.addView(button);
+                i++;
+            }
+            tabLayout.addView(a);
         }
+
+        resetButton = findViewById(R.id.reset_button);
+        resetButton.setOnClickListener(view -> {
+            blankSpacesWord.setText("");
+            givenAnswer.setLength(0);
+
+            for(int i=0; i<maxLen; i++){
+                Button button = findViewById(i+1);
+                button.setEnabled(true);
+            }
+        });
 
         backToCategoryButton = findViewById(R.id.back_to_category_button);
         backToCategoryButton.setOnClickListener(view -> {
@@ -235,33 +252,29 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    private List<Character> getShuffledLetters() {
+    private synchronized void getShuffledLetters(List<Variable> variables) {
         Random randNum = new Random();
         System.out.println("tu jest wymaganyt result" + requiredResult);
         char[] lettersArray = requiredResult.toCharArray();
 
         List<char[]> asList = Arrays.asList(lettersArray);
 
-        List<Character> letters = new ArrayList<>();
+        this.letters.clear();
         for (char letter : lettersArray) {
-            letters.add(letter);
+            this.letters.add(letter);
         }
 
         for (int i = 0; i < chosenDifficlty * 2; i++) {
-            letters.add("abcdefghijklmnopqrstuvwxyz".toCharArray()[randNum.nextInt("abcdefghijklmnopqrstuvwxyz".toCharArray().length)]);
+            this.letters.add("abcdefghijklmnopqrstuvwxyz".toCharArray()[randNum.nextInt("abcdefghijklmnopqrstuvwxyz".toCharArray().length)]);
         }
 
-//        Collections.shuffle(letters);
-        return letters;
+        Collections.shuffle(this.letters);
+        setBlankSpacesPossibleAnswers();
     }
 
-    private void setBlankSpaces() {
-
-
-    }
 
     private void setPossibleAnswers(List<Variable> variables) {
-        possible_answers.clear();
+        this.possible_answers.clear();
 
         if (variables.size() <= this.chosenDifficlty) {
             setContentView(R.layout.category_list);
