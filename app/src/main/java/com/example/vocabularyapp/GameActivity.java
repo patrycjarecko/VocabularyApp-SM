@@ -40,13 +40,17 @@ public class GameActivity extends AppCompatActivity {
     private Integer chosenMode = 1;
     private Integer chosenDifficlty = 1; //1-easy, 2-medium, 3-hard
 
+    static String WORD_ID_KEY = "word_id_key";
+    static String WORD_CATEGORY_KEY = "word_category_key";
+    static String CHOSEN_MODE_KEY = "chosen_mode_key";
+
     //translate mode
     TextView wordToTranslate;
     EditText translation;
     Button submitButton;
     Button backToCategoryButton;
     String requiredResult;
-    private boolean isThreadFinished = false;
+    private boolean isSavedInstanceState = false;
 
     //blankspaces mode
     List<Character> randomLetters = new ArrayList<>();
@@ -58,7 +62,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category_list);
-        chosenMode = getIntent().getExtras().getInt("chosenMode");
+        if (!isSavedInstanceState) chosenMode = getIntent().getExtras().getInt("chosenMode");
 
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
@@ -87,32 +91,46 @@ public class GameActivity extends AppCompatActivity {
     private void setCategories() {
         answerButtonsListView = findViewById(R.id.game_list_view);
         answerButtonsListView.removeAllViews();
-        for (int i = 0; i < this.categories.size(); i++) {
-            String tempCategory = this.categories.get(i);
-            Button button = new Button(this);
-            button.setId(i + 1);
-            button.setText(tempCategory);
-            button.setOnClickListener(view -> {
-                this.chosenCategory = tempCategory;
-                variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::setVariables);
+        if (!isSavedInstanceState) {
+            for (int i = 0; i < this.categories.size(); i++) {
+                String tempCategory = this.categories.get(i);
+                Button button = new Button(this);
+                button.setId(i + 1);
+                button.setText(tempCategory);
+                button.setOnClickListener(view -> {
+                    this.chosenCategory = tempCategory;
+                    variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::setVariables);
 
-                if (this.chosenMode == 1) {
-                    setContentView(R.layout.choose_answer_game);
-                    startChooseAnswerGame();
-                } else if (this.chosenMode == 2) {
-                    setContentView(R.layout.translate_word_game);
-                    startTranslateWordGame();
-                } else {
-                    setContentView(R.layout.blank_spaces_game);
-                    startBlankSpacesGame();
-                }
-            });
-            answerButtonsListView.addView(button);
+                    if (this.chosenMode == 1) {
+                        setContentView(R.layout.choose_answer_game);
+                        startChooseAnswerGame();
+                    } else if (this.chosenMode == 2) {
+                        setContentView(R.layout.translate_word_game);
+                        startTranslateWordGame();
+                    } else {
+                        setContentView(R.layout.blank_spaces_game);
+                        startBlankSpacesGame();
+                    }
+                });
+                answerButtonsListView.addView(button);
+            }
+        } else {
+            if (this.chosenMode == 1) {
+                setContentView(R.layout.choose_answer_game);
+                startChooseAnswerGame();
+            } else if (this.chosenMode == 2) {
+                setContentView(R.layout.translate_word_game);
+                startTranslateWordGame();
+            } else {
+                setContentView(R.layout.blank_spaces_game);
+                startBlankSpacesGame();
+            }
         }
+
     }
 
     private void startTranslateWordGame() {
-        wordToTranslate = findViewById(R.id.word_to_translate_text_view);
+        if (!isSavedInstanceState) wordToTranslate = findViewById(R.id.word_to_translate_text_view);
         translation = findViewById(R.id.put_translate_text_edit);
         submitButton = findViewById(R.id.game_submit_button);
         backToCategoryButton = findViewById(R.id.back_to_category_button);
@@ -139,7 +157,7 @@ public class GameActivity extends AppCompatActivity {
 
 
     private void startChooseAnswerGame() {
-        wordToTranslate = findViewById(R.id.word_to_translate_text_view);
+        if (!isSavedInstanceState) wordToTranslate = findViewById(R.id.word_to_translate_text_view);
         variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::setVariables);
         variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::setPossibleAnswers);
     }
@@ -183,11 +201,10 @@ public class GameActivity extends AppCompatActivity {
         Variable variable = variables.get(pom);
         wordToTranslate.setText(variable.getWord_eng());
         requiredResult = variable.getWord_pl();
-        isThreadFinished = true;
     }
 
     private void startBlankSpacesGame() {
-        wordToTranslate = findViewById(R.id.word_to_translate_text_view);
+        if (!isSavedInstanceState) wordToTranslate = findViewById(R.id.word_to_translate_text_view);
         variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::setVariables);
         variableViewModel.findVariablesByCategory(this.chosenCategory).observe(this, this::getShuffledLetters);
 
@@ -205,13 +222,13 @@ public class GameActivity extends AppCompatActivity {
         TableLayout tabLayout = findViewById(R.id.tab_buttons);
         tabLayout.removeAllViews();
         int maxLen = requiredResult.length() + (chosenDifficlty * 2);
-        for(int i = 1; i <= maxLen; ){
+        for (int i = 1; i <= maxLen; ) {
             TableRow a = new TableRow(this);
-            a.setId(i*20+1);
-            for(int y = 0; (y < 4) && (i <=maxLen); y++) {
+            a.setId(i * 20 + 1);
+            for (int y = 0; (y < 4) && (i <= maxLen); y++) {
                 Button button = new Button(this);
                 button.setId(i);
-                button.setText(this.letters.get(i-1) + "");
+                button.setText(this.letters.get(i - 1) + "");
                 button.setOnClickListener(view -> {
                     button.setEnabled(false);
                     givenAnswer.append(button.getText());
@@ -237,8 +254,8 @@ public class GameActivity extends AppCompatActivity {
             blankSpacesWord.setText("");
             givenAnswer.setLength(0);
 
-            for(int i=0; i<maxLen; i++){
-                Button button = findViewById(i+1);
+            for (int i = 0; i < maxLen; i++) {
+                Button button = findViewById(i + 1);
                 button.setEnabled(true);
             }
         });
@@ -295,7 +312,6 @@ public class GameActivity extends AppCompatActivity {
         setAnswerButtons();
     }
 
-
     private boolean ifContains(List<String> list, String new_value) {
         for (Integer i = 0; i < list.size(); i++) {
             if (list.get(i) == new_value) {
@@ -309,4 +325,23 @@ public class GameActivity extends AppCompatActivity {
         this.chosenMode = chosenMode;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putInt(WORD_ID_KEY, wordToTranslate.getId());
+        bundle.putString(WORD_CATEGORY_KEY, chosenCategory);
+        bundle.putInt(CHOSEN_MODE_KEY, chosenMode);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            wordToTranslate = findViewById(savedInstanceState.getInt(WORD_ID_KEY));
+            chosenCategory = savedInstanceState.getString(WORD_CATEGORY_KEY);
+            chosenMode = savedInstanceState.getInt(CHOSEN_MODE_KEY);
+            isSavedInstanceState = true;
+        }
+    }
 }
