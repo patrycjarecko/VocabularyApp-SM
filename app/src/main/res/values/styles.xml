@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Button">
+        <item name="android:layout_marginStart">@dimen/button_margin</item>
+        <item name="android:layout_marginEnd">@dimen/button_margin</item>
+        <item name="android:layout_marginBottom">@dimen/button_margin</item>
+        <item name="android:paddingTop">@dimen/button_padding</item>
+        <item name="android:paddingBottom">@dimen/button_padding</item>
+    </style>
+
+    <style name="FloatButton">
+        <item name="android:layout_margin">@dimen/button_margin</item>
+        <item name="android:backgroundTint">@color/second_green</item>
+    </style>
+
+    <style name="CustomCardView">
+        <item name="android:layout_margin">@dimen/card_margin</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/card_height</item>
+        <item name="android:elevation">@dimen/card_elevation</item>
+        <item name="android:background">@color/light_yellow</item>
+
+    </style>
+</resources>
