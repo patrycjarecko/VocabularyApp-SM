@@ -83,13 +83,13 @@ public class FavouriteActivity extends AppCompatActivity {
 
             expandedListTextView.setText(expandedListText);
             if(variablesByStatus.get("Do nauczenia").contains(expandedListText)){
-                expandedListTextView.setBackgroundColor(Color.parseColor("#C62828"));
+                expandedListTextView.setBackgroundColor(Color.parseColor("#EFB0B0"));
             }
             if(variablesByStatus.get("W trakcie nauki").contains(expandedListText)){
-                expandedListTextView.setBackgroundColor(Color.parseColor("#FFC107"));
+                expandedListTextView.setBackgroundColor(Color.parseColor("#ffedb8"));
             }
             if(variablesByStatus.get("Nauczone").contains(expandedListText)){
-                expandedListTextView.setBackgroundColor(Color.parseColor("#49544A"));
+                expandedListTextView.setBackgroundColor(Color.parseColor("#d5dbd6"));
             }
             return convertView;
         }
