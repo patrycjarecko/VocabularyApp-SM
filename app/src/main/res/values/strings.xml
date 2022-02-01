@@ -33,4 +33,8 @@
     <string name="quiz">Quiz</string>
     <string name="write">Write</string>
     <string name="combine">Combine</string>
+    <string name="do_nauczenia">Do nauczenia:</string>
+    <string name="w_trakcie_nauki">W trakcie nauki:</string>
+    <string name="nauczone">Nauczone:</string>
+    <string name="defaultValueAmount">0</string>
 </resources>
