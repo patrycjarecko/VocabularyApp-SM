@@ -55,9 +55,12 @@ public class VariableActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        prepareCategories();
+        try {
+            prepareCategories();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        //uzaleznic od wyboru jezyka
         variableViewModel.findAllEngVariables().observe(this, adapter::setVariables);
 
         SearchView searchView = findViewById(R.id.search_field);
@@ -83,7 +86,7 @@ public class VariableActivity extends AppCompatActivity {
             LayoutInflater layoutInflater = LayoutInflater.from(VariableActivity.this);
             View createView = layoutInflater.inflate(R.layout.variable_create_edit_item, null);
             AlertDialog.Builder alertDialogVariableCreate = new AlertDialog.Builder(VariableActivity.this);
-            alertDialogVariableCreate.setTitle("Create variable");
+            alertDialogVariableCreate.setTitle(getResources().getString(R.string.create_variable));
             alertDialogVariableCreate.setView(createView);
 
             final EditText dialogCreateEng = createView.findViewById(R.id.variable_eng);
@@ -121,9 +124,9 @@ public class VariableActivity extends AppCompatActivity {
             });
 
 
-            alertDialogVariableCreate.setPositiveButton("Save", (dialogBox, id) -> {
+            alertDialogVariableCreate.setPositiveButton(getResources().getString(R.string.save), (dialogBox, id) -> {
                 if (dialogCreatePl.getText().toString().equals("") || dialogCreateEng.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(), "Input is empty. Try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_field), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Variable variable = new Variable();
@@ -135,7 +138,7 @@ public class VariableActivity extends AppCompatActivity {
                 }
             });
 
-            alertDialogVariableCreate.setNegativeButton("Cancel", (dialogBox, id) -> dialogBox.cancel());
+            alertDialogVariableCreate.setNegativeButton(getResources().getString(R.string.cancel), (dialogBox, id) -> dialogBox.cancel());
             AlertDialog alertDialog = alertDialogVariableCreate.create();
             alertDialog.show();
         });
@@ -208,7 +211,7 @@ public class VariableActivity extends AppCompatActivity {
             LayoutInflater layoutInflater = LayoutInflater.from(VariableActivity.this);
             View editView = layoutInflater.inflate(R.layout.variable_create_edit_item, null);
             AlertDialog.Builder alertDialogVariableEdit = new AlertDialog.Builder(VariableActivity.this);
-            alertDialogVariableEdit.setTitle("Edit variable");
+            alertDialogVariableEdit.setTitle(getResources().getString(R.string.edit_variable));
             alertDialogVariableEdit.setView(editView);
 
             categorySpinner = editView.findViewById(R.id.spinner_category);
@@ -253,9 +256,9 @@ public class VariableActivity extends AppCompatActivity {
             dialogEditEng.setText(variableEngTextView.getText());
             dialogEditPl.setText(variablePlTextView.getText());
 
-            alertDialogVariableEdit.setPositiveButton("Save", (dialogBox, id) -> {
+            alertDialogVariableEdit.setPositiveButton(getResources().getString(R.string.save), (dialogBox, id) -> {
                 if (dialogEditPl.getText().toString().equals("") || dialogEditEng.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(), "Input is empty. Try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.empty_field), Toast.LENGTH_SHORT).show();
                 }
                 else {
                     variable.setWord_eng(dialogEditEng.getText().toString());
@@ -266,7 +269,7 @@ public class VariableActivity extends AppCompatActivity {
                 }
             });
 
-            alertDialogVariableEdit.setNegativeButton("Cancel", (dialogBox, id) -> dialogBox.cancel());
+            alertDialogVariableEdit.setNegativeButton(getResources().getString(R.string.cancel), (dialogBox, id) -> dialogBox.cancel());
             AlertDialog alertDialog = alertDialogVariableEdit.create();
             alertDialog.show();
 
@@ -278,11 +281,11 @@ public class VariableActivity extends AppCompatActivity {
             AlertDialog.Builder alertDialogVariableDelete = new AlertDialog.Builder(VariableActivity.this);
 
             alertDialogVariableDelete.setCancelable(false);
-            alertDialogVariableDelete.setTitle("Delete variable");
-            alertDialogVariableDelete.setMessage("Are you sure to delete?");
+            alertDialogVariableDelete.setTitle(getResources().getString(R.string.delete));
+            alertDialogVariableDelete.setMessage(getResources().getString(R.string.delete_question));
 
-            alertDialogVariableDelete.setPositiveButton("Delete", (dialogBox, id) -> variableViewModel.delete(variable));
-            alertDialogVariableDelete.setNegativeButton("Cancel", (dialogBox, id) -> dialogBox.cancel());
+            alertDialogVariableDelete.setPositiveButton(getResources().getString(R.string.delete), (dialogBox, id) -> variableViewModel.delete(variable));
+            alertDialogVariableDelete.setNegativeButton(getResources().getString(R.string.cancel), (dialogBox, id) -> dialogBox.cancel());
 
             AlertDialog alertDialog = alertDialogVariableDelete.create();
             alertDialog.show();

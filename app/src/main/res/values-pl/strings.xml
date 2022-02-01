@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nothing_selected">Nic nie wybrano</string>
+    <string name="app_name">VocabularyApp</string>
+    <string name="word_to_translate">słowo do przetłumaczenia</string>
+    <string name="insert_your_word">wpisz swoje słowo</string>
+    <string name="submit">Zatwierdź</string>
+    <string name="back_to_category">Wróć</string>
+    <string name="english">Angielski</string>
+    <string name="polish">Polski</string>
+    <string name="category">Kategoria</string>
+    <string name="variable_english">Angielskie słowo</string>
+    <string name="variable_polish">Polskie słowo</string>
+    <string name="empty_edit_text">Wypełnij puste pole</string>
+    <string name="nav_open">Otwórz menu</string>
+    <string name="nav_close">Zamknij menu</string>
+    <string name="tutorial_practise">Sposoby nauki słownictwa</string>
+    <string name="tutorial_app">Jak korzystać z aplikacji</string>
+    <string name="title_activity_settings">Ustawienia</string>
+    <string name="game_header">Gra</string>
+    <string name="notification_header">Powiadomienia</string>
+    <string name="signature_title">Twoje dane</string>
+    <string name="difficulty_title">Domyślny poziom trudności</string>
+    <string name="notification_title">Wyłącz powiadomienia</string>
+    <string name="status">Status</string>
+    <string name="reset">Reset</string>
+    <string name="quiz">Quiz</string>
+    <string name="write">Wpisz</string>
+    <string name="combine">Luki</string>
+    <string name="home">Strona główna</string>
+    <string name="favorite">Ulubione</string>
+    <string name="word_list">Lista słów</string>
+    <string name="statistic">Statystyki</string>
+    <string name="tutorials">Samouczki</string>
+    <string name="edit_variable">Edytuj słowo</string>
+    <string name="create_variable">Stwórz słowo</string>
+    <string name="save">Zapisz</string>
+    <string name="cancel">Cofnij</string>
+    <string name="empty_field">Pole jest puste. Dodaj wartość.</string>
+    <string name="delete">Usuń</string>
+    <string name="delete_question">Na pewno usunąć?</string>
+    <string name="do_nauczenia">Do nauczenia:</string>
+    <string name="w_trakcie_nauki">W trakcie nauki:</string>
+    <string name="nauczone">Nauczone:</string>
+    <string name="defaultValueAmount">0</string>
+</resources>
