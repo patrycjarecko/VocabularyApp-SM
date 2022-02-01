@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -66,6 +65,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.home_toolbar);
 
+        quizModeButton = findViewById(R.id.button_quiz);
+        writeWordModeButton = findViewById(R.id.button_write);
+        combineLettersModeButton = findViewById(R.id.button_combine);
+
         quizModeButton.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, GameActivity.class);
             intent.putExtra("chosenMode", 1);
@@ -82,37 +85,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(HomeActivity.this, GameActivity.class);
             intent.putExtra("chosenMode", 3);
             startActivity(intent);
-        });
-
-        quizModeButton.setText("Quiz");
-        writeWordModeButton.setText("Write");
-        combineLettersModeButton.setText("Combine");
-
-        quizModeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, GameActivity.class);
-                intent.putExtra("chosenMode", 1);
-                startActivity(intent);
-            }
-        });
-
-        writeWordModeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, GameActivity.class);
-                intent.putExtra("chosenMode", 2);
-                startActivity(intent);
-            }
-        });
-
-        combineLettersModeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, GameActivity.class);
-                intent.putExtra("chosenMode", 3);
-                startActivity(intent);
-            }
         });
 
         setSupportActionBar(toolbar);
