@@ -19,7 +19,9 @@
             android:padding="8dp"
             android:text="@string/variable_english"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:background="@drawable/word_list_border"
+            />
 
         <TextView
             android:id="@+id/variable_pl"
@@ -28,7 +30,9 @@
             android:padding="8dp"
             android:text="@string/variable_polish"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:background="@drawable/word_list_border"
+            />
 
         <TextView
             android:id="@+id/category"
@@ -37,7 +41,9 @@
             android:padding="8dp"
             android:text="@string/category"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:background="@drawable/word_list_border"
+            />
 
         <TextView
             android:id="@+id/status"
@@ -46,7 +52,9 @@
             android:padding="8dp"
             android:text="@string/status"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:background="@drawable/word_list_border"
+            />
 
     </LinearLayout>
 
