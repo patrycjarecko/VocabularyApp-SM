@@ -42,6 +42,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private HashMap<String, List<String>> expandableListDetail = new HashMap<>();
     private HashMap<String, List<String>> variablesByStatus = new HashMap<>();
 
+    public static List<String> statusForEachVariable = new ArrayList<>();
+
     public static List<String> statuses = new ArrayList<>();
 
     @SneakyThrows
@@ -150,6 +152,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.statistic:
+                intent = new Intent(HomeActivity.this, StatisticActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.settings:
@@ -180,6 +184,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         List<String> categories2 = new ArrayList<>();
         List<String> statuses = new ArrayList<>();
 
+        statusForEachVariable.clear();
+
+        for (Variable var : variables) {
+            statusForEachVariable.add(var.getStatus());
+        }
 
         BufferedReader bufer = null;
         try {
@@ -225,6 +234,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+
+        HomeActivity.statuses = statuses;
 
         if (variables.size() == 0) {
             Toast.makeText(getApplicationContext(), "Lack of variables", Toast.LENGTH_SHORT).show();
