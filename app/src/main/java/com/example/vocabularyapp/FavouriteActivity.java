@@ -89,7 +89,7 @@ public class FavouriteActivity extends AppCompatActivity {
                 expandedListTextView.setBackgroundColor(Color.parseColor("#ffedb8"));
             }
             if(variablesByStatus.get("Nauczone").contains(expandedListText)){
-                expandedListTextView.setBackgroundColor(Color.parseColor("#d5dbd6"));
+                expandedListTextView.setBackgroundColor(Color.parseColor("#c3edca"));
             }
             return convertView;
         }
